@@ -2,18 +2,19 @@
 # "$schema" = 'https://starship.rs/config-schema.json'
 
 # 実行結果の前後に余白をつけない
-# add_newline = false
+add_newline = true
 
 # Wait 10 milliseconds for starship to check files under the current directory.
 scan_timeout = 10
 
 #Pastel Powerline Preset
 format = """
-[](#9A348E)\
+[┌───────────────────>](bold #65dcfc)
+[│](bold #65dcfc)[](#f5bae4)\
 $username\
-[](bg:#DA627D fg:#9A348E)\
+[](bg:#236cf1 fg:#f5bae4)\
 $directory\
-[](fg:#DA627D bg:#FCA17D)\
+[](fg:#236cf1 bg:#FCA17D)\
 $git_branch\
 $git_status\
 [](fg:#FCA17D bg:#86BBD8)\
@@ -32,13 +33,13 @@ $rust\
 $docker_context\
 [](fg:#06969A bg:#33658A)\
 $time\
-[ ](fg:#33658A)\
-"""
+[ ](fg:#33658A)
+[└─>](bold #65dcfc) """
 
 [username]
 show_always = true
-style_user = "bg:#9A348E"
-style_root = "bg:#9A348E"
+style_user = "bg:#f5bae4"
+style_root = "bg:#f5bae4"
 format = "[$user🦡]($style)"
     
 [battery]
@@ -62,7 +63,7 @@ format = "[$user🦡]($style)"
 # discharging_symbol  = "💀"
 
 [directory]
-style = "bg:#DA627D"
+style = "bg:#236cf1"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
