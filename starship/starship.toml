@@ -9,8 +9,7 @@ scan_timeout = 10
 
 #Pastel Powerline Preset
 format = """
-[┌───────────────────>](bold #65dcfc)
-[│](bold #65dcfc)[](#f5bae4)\
+[┌](bold #65dcfc)[](#f5bae4)\
 $username\
 [](bg:#236cf1 fg:#f5bae4)\
 $directory\
@@ -41,6 +40,7 @@ show_always = true
 style_user = "bg:#f5bae4"
 style_root = "bg:#f5bae4"
 format = "[$user🦡]($style)"
+
     
 [battery]
 # disabled = true
