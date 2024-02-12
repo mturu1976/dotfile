@@ -7,6 +7,9 @@ add_newline = true
 # Wait 10 milliseconds for starship to check files under the current directory.
 scan_timeout = 10
 
+#コマンドのタイムアウト時間対策
+command_timeout = 2000
+
 #Pastel Powerline Preset
 format = """
 [┌](bold #65dcfc)[](#133A8F)\
