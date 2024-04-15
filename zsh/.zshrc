@@ -1,8 +1,18 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # starship
-export STARSHIP_CONFIG=~/.config/starship/starship.toml
-eval "$(starship init zsh)"
+#export STARSHIP_CONFIG=~/.config/starship/starship.toml
+#eval "$(starship init zsh)"
 # 
-# exort PATH=/usr/local/bin:$PATH
+
+export PATH=/usr/local/bin:$PATH
+
+
 
 ###############
 # ヒストリ関連
@@ -22,6 +32,9 @@ setopt EXTENDED_HISTORY
 
 #zsh
 autoload -Uz zmv
+
+# /opt/homebrew/share ディレクトリを fpath に追加
+fpath=(/opt/homebrew/share $fpath)
 
 # 補完機能を有効にする
 autoload -Uz compinit
@@ -79,7 +92,7 @@ eval "$(pyenv virtualenv-init -)"
 
 #alias
 alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
-alias ls='eza --time-style=long-iso -g'
+alias ls='eza --time-style=long-iso -g --icons --git'
 alias ll='ls --git --time-style=long-iso -gl'
 alias la='ls --git --time-style=long-iso -agl'
 alias l1='eza -1'
@@ -106,10 +119,10 @@ alias work="timer 8m && terminal-notifier -message 'Pomodoro'\
 alias dll2='time aria2c -x10 -s10 -k2M '
 
 # youtube-dl
-alias youtubemp3='youtube-dl -x --audio-format mp3 '
-alias you3='youtube-dl -x --audio-format mp3 '
-alias youtube3='youtube-dl -x --audio-format mp3 '
-alias youtubedl='youtube-dl --cookies /Users/$USERNAME/Documents/projects/youtubedl/youtube.com_cookies.txt '
+# alias youtubemp3='youtube-dl -x --audio-format mp3 '
+# alias you3='youtube-dl -x --audio-format mp3 '
+# alias youtube3='youtube-dl -x --audio-format mp3 '
+# alias youtubedl='youtube-dl --cookies /Users/$USERNAME/Documents/projects/youtubedl/youtube.com_cookies.txt '
 
 # vimでnvimが起動するようにする 
 alias vim="nvim"
@@ -217,3 +230,9 @@ fi
 
 zplug load
 alias tmuxnew='tmux new-session -d -s'
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+PATH=~/.console-ninja/.bin:$PATH
