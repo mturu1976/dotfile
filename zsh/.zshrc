@@ -59,6 +59,9 @@ setopt correct
 # the fuck
 eval $(thefuck --alias)
 
+# fzf
+eval "$(fzf --zsh)"
+
 #zlib
 # LDFLAGS="-L/usr/local/opt/zlib/lib"
 # CPPFLAGS="-I/usr/local/opt/zlib/include"
@@ -78,21 +81,21 @@ fi
 
 
 #pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
+#export PYENV_ROOT="$HOME/.pyenv"
+#export PATH="$PYENV_ROOT/bin:$PATH"
+#eval "$(pyenv init --path)"
 
 # if command -v pyenv 1>/dev/null 2>&1; then
 #   eval "$(pyenv init --path)"
 # fi
 
 #virtualenv
-eval "$(pyenv virtualenv-init -)"
+#eval "$(pyenv virtualenv-init -)"
 
 
 #alias
 alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
-alias ls='eza --time-style=long-iso -g --icons --git'
+alias ls='eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions'
 alias ll='ls --git --time-style=long-iso -gl'
 alias la='ls --git --time-style=long-iso -agl'
 alias l1='eza -1'
@@ -133,6 +136,9 @@ alias vim="nvim"
 # python
 alias dougubako="cd /Users/$USERNAME/Documents/py/dougubako2021;python ./dougubako.py"
 
+# asdf
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
+
 # youtube字幕
 alias jimaku='cd /Users/tanuki/Documents/py/youtube_jimaku200;python ./toucou_youtube.py '
 
@@ -163,8 +169,8 @@ export PATH="/usr/local/sbin:$PATH"
 alias ppython="gibo dump MacOS Python emacs >> .gitignore;git init;touch Readme.md requirements.txt"
 
 #path
-export PATH="/Users/$USERNAME/.deta/bin:$PATH"
-export DETA_ACCESS_TOKEN=a0bbsmf0_EAtmnHYHNNah37CYqmLKsnubXnExBAWq
+#export PATH="/Users/$USERNAME/.deta/bin:$PATH"
+#export DETA_ACCESS_TOKEN=a0bbsmf0_EAtmnHYHNNah37CYqmLKsnubXnExBAWq
 
 # nonomatch
 setopt nonomatch
@@ -203,9 +209,9 @@ export PATH="/Users/$USERNAME/.local/bin:$PATH"export PATH="$HOME/.anyenv/bin:$P
 # eval "$(anyenv init -)"
 
 # composer
-export PATH=~/.composer/vendor/bin:$PATH
+#export PATH=~/.composer/vendor/bin:$PATH
 export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
-export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
+#export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
 
 # Go
 export GOPATH=$HOME/go
@@ -236,3 +242,4 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 PATH=~/.console-ninja/.bin:$PATH
+export PATH="$HOME/.poetry/bin:$PATH"
