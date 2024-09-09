@@ -15,4 +15,3 @@ for config_file in ~/dotfile/zsh/config/*.zsh; do
   source $config_file
 done
 
-PATH=~/.console-ninja/.bin:$PATH
