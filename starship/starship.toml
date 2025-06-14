@@ -8,7 +8,7 @@ add_newline = true
 scan_timeout = 10
 
 #コマンドのタイムアウト時間対策
-command_timeout = 2000
+command_timeout = 1000
 
 #Pastel Powerline Preset
 format = """
@@ -188,6 +188,5 @@ heuristic = false
 
 [custom.direnv]
 command = "cat .envrc | grep -v -E '^[ ]*#|^$' | wc -l"
-files = [".envrc"]
 style = "bg:white fg:black"
 format = "[direnv \\($output\\)]($style) "
