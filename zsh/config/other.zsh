@@ -14,7 +14,7 @@ eval "$(zoxide init zsh)"
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 # asdf
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
+# . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
 # direnv
 export EDITOR=code
