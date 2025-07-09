@@ -1,0 +1,126 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "console_title_template": "{{.Folder}}",
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "properties": {
+            "cache_duration": "none"
+          },
+          "template": "{{ if .WSL }}WSL at{{ end }} {{.Icon}} ",
+          "foreground": "#BFA393",
+          "background": "#26111F",
+          "type": "os",
+          "style": "powerline"
+        },
+        {
+          "properties": {
+            "cache_duration": "none",
+            "style": "full"
+          },
+          "template": " {{ .Path }} ",
+          "foreground": "#BFA393",
+          "powerline_symbol": "\ue0b0",
+          "background": "#593B40",
+          "type": "path",
+          "style": "powerline"
+        },
+        {
+          "properties": {
+            "branch_icon": "\ue0a0 ",
+            "branch_identical_icon": "\u25cf",
+            "branch_template": "{{ trunc 25 .Branch }}",
+            "cache_duration": "none",
+            "fetch_stash_count": true,
+            "fetch_status": true
+          },
+          "leading_diamond": "\ue0b6",
+          "trailing_diamond": "\ue0b4",
+          "template": " {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} ",
+          "foreground": "#BFA393",
+          "powerline_symbol": "\ue0b0",
+          "background": "#2A1440",
+          "type": "git",
+          "style": "powerline",
+          "background_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#A67165{{ end }}",
+            "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#593B40{{ end }}",
+            "{{ if gt .Ahead 0 }}#BFA393{{ end }}",
+            "{{ if gt .Behind 0 }}#26111F{{ end }}"
+          ]
+        },
+        {
+          "properties": {
+            "cache_duration": "none",
+            "fetch_package_manager": false,
+            "npm_icon": " <#BFA393>\ue5fa</> ",
+            "yarn_icon": " <#BFA393>\ue6a7</>"
+          },
+          "template": " {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} ",
+          "foreground": "#26111F",
+          "powerline_symbol": "\ue0b0",
+          "background": "#A67165",
+          "type": "node",
+          "style": "powerline"
+        },
+        {
+          "properties": {
+            "cache_duration": "none",
+            "fetch_version": false
+          },
+          "template": " \ue235{{ if .Error }}{{ .Error }}{{ else }} {{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }} ",
+          "foreground": "#BFA393",
+          "powerline_symbol": "\ue0b0",
+          "background": "#593B40",
+          "type": "python",
+          "style": "powerline"
+        },
+        {
+          "properties": {
+            "cache_duration": "none"
+          },
+          "template": " \ue7ad {{.Profile}}{{if .Region}}@{{.Region}}{{end}} ",
+          "foreground": "#A67165",
+          "powerline_symbol": "\ue0b0",
+          "background": "#26111F",
+          "type": "aws",
+          "style": "powerline"
+        },
+        {
+          "properties": {
+            "cache_duration": "none",
+            "time_format": "15:04"
+          },
+          "template": " ♥ {{ .CurrentDate | date .Format }} ",
+          "foreground": "#BFA393",
+          "powerline_symbol": "\ue0b0",
+          "background": "#2A1440",
+          "type": "time",
+          "style": "powerline"
+        }
+      ]
+    },
+    {
+      "type": "rprompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "properties": {
+            "always_enabled": true,
+            "cache_duration": "none"
+          },
+          "template": " \ueba2 {{ .FormattedMs }} ",
+          "foreground": "#BFA393",
+          "background": "#593B40",
+          "type": "executiontime",
+          "style": "plain"
+        }
+      ]
+    }
+  ],
+  "version": 3,
+  "final_space": true
+}
