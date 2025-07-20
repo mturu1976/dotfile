@@ -8,7 +8,7 @@
       "segments": [
         {
           "properties": {
-            "cache_duration": "none"
+            "cache_duration": "10m"
           },
           "template": "{{ if .WSL }}WSL at{{ end }} {{.Icon}} ",
           "foreground": "#FF0080",
@@ -18,7 +18,7 @@
         },
         {
           "properties": {
-            "cache_duration": "none",
+            "cache_duration": "10m",
             "style": "short",
             "max_depth": 2
           },
@@ -34,8 +34,8 @@
             "branch_icon": "\ue0a0 ",
             "branch_identical_icon": "\u25cf",
             "branch_template": "{{ trunc 25 .Branch }}",
-            "cache_duration": "none",
-            "fetch_stash_count": true,
+            "cache_duration": "10m",
+            "fetch_stash_count": false,
             "fetch_status": true
           },
           "leading_diamond": "\ue0b6",
@@ -55,47 +55,10 @@
         },
         {
           "properties": {
-            "cache_duration": "none",
-            "fetch_package_manager": false,
-            "npm_icon": " <#00FFFF>\ue5fa</> ",
-            "yarn_icon": " <#00FFFF>\ue6a7</>"
-          },
-          "template": " {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} ",
-          "foreground": "#1A0A2E",
-          "powerline_symbol": "\ue0b0",
-          "background": "#FF4081",
-          "type": "node",
-          "style": "powerline"
-        },
-        {
-          "properties": {
-            "cache_duration": "none",
-            "fetch_version": false
-          },
-          "template": " \ue235{{ if .Error }}{{ .Error }}{{ else }} {{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }} ",
-          "foreground": "#00FFFF",
-          "powerline_symbol": "\ue0b0",
-          "background": "#0F3460",
-          "type": "python",
-          "style": "powerline"
-        },
-        {
-          "properties": {
-            "cache_duration": "none"
-          },
-          "template": " \ue7ad {{.Profile}}{{if .Region}}@{{.Region}}{{end}} ",
-          "foreground": "#FF4081",
-          "powerline_symbol": "\ue0b0",
-          "background": "#1A0A2E",
-          "type": "aws",
-          "style": "powerline"
-        },
-        {
-          "properties": {
-            "cache_duration": "none",
+            "cache_duration": "10m",
             "time_format": "15:04"
           },
-          "template": " ♥ {{ .CurrentDate | date .Format }} ",
+          "template": "{{ .CurrentDate | date .Format }}",
           "foreground": "#FF0080",
           "powerline_symbol": "\ue0b0",
           "background": "#16213E",
@@ -113,23 +76,6 @@
           "template": "❯ ",
           "foreground": "#FF0080",
           "type": "text",
-          "style": "plain"
-        }
-      ]
-    },
-    {
-      "type": "rprompt",
-      "alignment": "right",
-      "segments": [
-        {
-          "properties": {
-            "always_enabled": true,
-            "cache_duration": "none"
-          },
-          "template": " \ueba2 {{ .FormattedMs }} ",
-          "foreground": "#00FFFF",
-          "background": "#0F3460",
-          "type": "executiontime",
           "style": "plain"
         }
       ]
