@@ -6,8 +6,15 @@ if [ -z "$ZSH_VERSION" ]; then
   return
 fi
 
-# Oh My Poshの初期化（CYBERPUNK THEME）
+# Oh My Poshの初期化（CYBERPUNK THEME + 視認性向上）
 eval "$(oh-my-posh init zsh --config ~/dotfile/.config/oh-my-posh/themes/cyberpunk.omp.json)"
+
+# 視認性向上のためのターミナル設定
+export TERM=xterm-256color
+export COLORTERM=truecolor
+
+# カーソルの視認性向上
+echo -ne '\e[2 q'  # ブロックカーソル
 
 # Starshipの設定（無効化）
 # export STARSHIP_CONFIG="$HOME/dotfile/starship/starship.toml"
