@@ -70,7 +70,7 @@
       "newline": true,
       "segments": [
         {
-          "template": " ",
+          "template": "❯ ",
           "foreground": "#8B93C7",
           "type": "text",
           "style": "plain"
