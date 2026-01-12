@@ -3,7 +3,9 @@ alias ll='ls --git --time-style=long-iso -gl'
 alias la='ls --git --time-style=long-iso -agl'
 alias l1='eza -1'
 
-alias cd='z'
+# cdは標準のまま維持（Claude Codeなどのツールとの互換性のため）
+# zoxideのスマートジャンプは`z`コマンドで手動使用
+# 例: `z proj` でプロジェクトディレクトリにジャンプ
 
 alias rm='rm -i'
 alias cp='cp -i'
@@ -95,17 +97,3 @@ fzf-z-search() {
 
 zle -N fzf-z-search
 bindkey '^z' fzf-z-search
-
-# flog - git commit browser
-# ref: https://qiita.com/kamykn/items/aa9920f07487559c0c7e
-flog() {
-  git log --graph --color=always \
-      --format="%C(auto)%h%d %s %C(#C0C0C0)%C(bold)%cr" "$@" |
-  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
-      --bind "ctrl-m:execute:
-              (grep -o '[a-f0-9]\{7\}' | head -1 |
-              xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
-              {}
-              FZF-EOF
-             "
-}

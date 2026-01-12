@@ -7,8 +7,8 @@ eval $(thefuck --alias)
 # nonomatch
 setopt nonomatch
 
-# zoxide
-eval "$(zoxide init zsh)"
+# zoxide（zsh/.zshrcで既に初期化済みのため、ここでは無効化）
+# eval "$(zoxide init zsh)"
 
 # autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh

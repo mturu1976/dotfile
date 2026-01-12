@@ -13,8 +13,10 @@ eval "$(oh-my-posh init zsh --config ~/dotfile/.config/oh-my-posh/themes/cyberpu
 export TERM=xterm-256color
 export COLORTERM=truecolor
 
-# カーソルの視認性向上
-echo -ne '\e[2 q'  # ブロックカーソル
+# カーソルの視認性向上（インタラクティブシェルのみ）
+if [[ $- == *i* ]]; then
+    echo -ne '\e[2 q'  # ブロックカーソル
+fi
 
 # Starshipの設定（無効化）
 # export STARSHIP_CONFIG="$HOME/dotfile/starship/starship.toml"
@@ -23,7 +25,7 @@ echo -ne '\e[2 q'  # ブロックカーソル
 # asdfの初期化
 export ASDF_DIR="$(brew --prefix asdf)"
 if [[ -d "$ASDF_DIR" ]]; then
-    . "$ASDF_DIR/asdf.sh"
+    . "$ASDF_DIR/libexec/asdf.sh"
 fi
 
 # Homebrewのパス設定
@@ -33,15 +35,17 @@ export PATH="/opt/homebrew/sbin:$PATH"
 # asdf shimの設定
 export PATH="$HOME/.asdf/shims:$PATH"
 
-# 高速化：重要な設定のみ即座に読み込み
+# 高速化：重要な設定のみ即座に読み込み（zoxide初期化前）
+# cdエイリアスはzoxide初期化後に設定するため一時的に除外
 source ~/dotfile/zsh/config/alias.zsh
 
-# zoxide（z）は頻繁に使うため即座に読み込み
-eval "$(zoxide init zsh)"
-
-# zsh補完システムの有効化
+# zsh補完システムの有効化（zoxideの前に必要）
 autoload -Uz compinit
 compinit -C
+
+# bracketed paste modeの有効化（ペースト時の200~問題を解決）
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic
 
 # 基本的な補完設定
 setopt AUTO_MENU
@@ -61,6 +65,14 @@ fi
 # シンタックスハイライト
 if [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
     source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+# zoxide（z）- スマートディレクトリジャンプ
+# cdは標準のまま維持（Claude Codeなどのツールとの互換性のため）
+# zoxideのスマートジャンプは`z`コマンドで手動使用
+# 例: `z proj` でプロジェクトディレクトリにジャンプ
+if command -v zoxide &> /dev/null; then
+    eval "$(zoxide init zsh)"
 fi
 
 # エイリアス：c = 詳細補完を有効化
@@ -121,3 +133,5 @@ bindkey "^K" kill-line
 
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 # GitHub token is set via environment variables for security
+# Added by Antigravity
+export PATH="/Users/tanuki/.antigravity/antigravity/bin:$PATH"
