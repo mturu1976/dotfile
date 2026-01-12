@@ -8,7 +8,7 @@ add_newline = true
 scan_timeout = 10
 
 #コマンドのタイムアウト時間対策
-command_timeout = 2000
+command_timeout = 1000
 
 #Pastel Powerline Preset
 format = """
@@ -177,11 +177,8 @@ utc_time_offset = "+9"
 time_range = "4:00:00-21:00:00"
 
 [hostname]
-ssh_only = true
-format =  "on [$hostname](bold red) "
-# prefix = "⟪"
-# suffix = "⟫"
-trim_at = ".companyname.com"
+ssh_only = false
+detect_env_vars = ['!TMUX', 'SSH_CONNECTION']
 disabled = false
 
 [dotnet]
@@ -191,6 +188,5 @@ heuristic = false
 
 [custom.direnv]
 command = "cat .envrc | grep -v -E '^[ ]*#|^$' | wc -l"
-files = [".envrc"]
 style = "bg:white fg:black"
 format = "[direnv \\($output\\)]($style) "
