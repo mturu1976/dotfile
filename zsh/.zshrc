@@ -127,11 +127,12 @@ function python() {
 # <<< conda initialize <<<
 
 # Added by Windsurf
-export PATH="/Users/tanuki/.codeium/windsurf/bin:$PATH"
+export PATH="$HOME/.codeium/windsurf/bin:$PATH"
 bindkey -e
 bindkey "^K" kill-line
 
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 # GitHub token is set via environment variables for security
 # Added by Antigravity
-export PATH="/Users/tanuki/.antigravity/antigravity/bin:$PATH"
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
