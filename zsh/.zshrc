@@ -6,9 +6,6 @@ if [ -z "$ZSH_VERSION" ]; then
   return
 fi
 
-# Oh My Poshの初期化（CYBERPUNK THEME + 視認性向上）
-eval "$(oh-my-posh init zsh --config ~/dotfile/.config/oh-my-posh/themes/cyberpunk.omp.json)"
-
 # 視認性向上のためのターミナル設定
 export TERM=xterm-256color
 export COLORTERM=truecolor
@@ -32,6 +29,9 @@ export PATH="$HOMEBREW_PREFIX/sbin:$PATH"
 # asdf (v0.16+ Go版) shimの設定
 export ASDF_DATA_DIR="${ASDF_DATA_DIR:-$HOME/.asdf}"
 export PATH="$ASDF_DATA_DIR/shims:$PATH"
+
+# Oh My Poshの初期化（PATH設定後に実行）
+eval "$(oh-my-posh init zsh --config ~/dotfile/.config/oh-my-posh/themes/cyberpunk.omp.json)"
 
 # 高速化：重要な設定のみ即座に読み込み（zoxide初期化前）
 # cdエイリアスはzoxide初期化後に設定するため一時的に除外
