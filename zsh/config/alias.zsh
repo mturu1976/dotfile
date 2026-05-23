@@ -7,6 +7,14 @@ alias l1='eza -1'
 # zoxideのスマートジャンプは`z`コマンドで手動使用
 # 例: `z proj` でプロジェクトディレクトリにジャンプ
 
+# モダンCLI置き換え
+alias cat='bat --paging=never'  # シンタックスハイライト付きcat
+alias du='dust'                  # 視覚的なディスク使用量
+alias df='duf'                   # 見やすいディスク空き容量
+alias ps='procs'                 # カラフルなプロセス一覧
+alias top='btop'                 # リッチなシステムモニタ
+alias md='glow'                  # ターミナルでMarkdownプレビュー
+
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
