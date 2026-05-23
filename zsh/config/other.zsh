@@ -32,20 +32,6 @@ bindkey -s "\C-r" "\C-a hstr -- \C-j"
 export HISTFILESIZE=10000
 export HISTSIZE=${HISTFILESIZE}
 
-# zplug initialization
-export ZPLUG_HOME=/opt/homebrew/opt/zplug
-source $ZPLUG_HOME/init.zsh
-
-zplug "zsh-users/zsh-syntax-highlighting"
-zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-completions"
-zplug "b4b4r07/enhancd", use:"init.sh"
-
-if ! zplug check --verbose; then
-    printf "インストールしますか？[y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-
-zplug load
+# zsh-completions (Homebrew) — fpath追加はcompinit前に必要なため.zshrcで設定済み
+# zsh-syntax-highlighting / zsh-autosuggestions も .zshrc で直接ロード済み
+# enhancd は zoxide (z コマンド) で代替。cd 標準維持のため不要

@@ -19,8 +19,4 @@
 #[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(fzf --zsh)"
 
-# zsh-syntax-highlighting
-source /opt/homebrew/opt/zplug/repos/zsh-users/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# zsh-autosuggestions
-source /opt/homebrew/opt/zplug/repos/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh
+# zsh-syntax-highlighting / zsh-autosuggestions は .zshrc で Homebrew から直接ロード済み

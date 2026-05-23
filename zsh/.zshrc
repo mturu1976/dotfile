@@ -22,26 +22,31 @@ fi
 # export STARSHIP_CONFIG="$HOME/dotfile/starship/starship.toml"
 # eval "$(starship init zsh)"
 
-# asdfの初期化
-export ASDF_DIR="$(brew --prefix asdf)"
-if [[ -d "$ASDF_DIR" ]]; then
-    . "$ASDF_DIR/libexec/asdf.sh"
-fi
-
 # Homebrewのパス設定
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/sbin:$PATH"
 
-# asdf shimの設定
-export PATH="$HOME/.asdf/shims:$PATH"
+# asdf (v0.16+ Go版) shimの設定
+export ASDF_DATA_DIR="${ASDF_DATA_DIR:-$HOME/.asdf}"
+export PATH="$ASDF_DATA_DIR/shims:$PATH"
 
 # 高速化：重要な設定のみ即座に読み込み（zoxide初期化前）
 # cdエイリアスはzoxide初期化後に設定するため一時的に除外
 source ~/dotfile/zsh/config/alias.zsh
 
+# zsh-completions (Homebrew) — compinit より前にfpathへ追加
+if [[ -d /opt/homebrew/share/zsh-completions ]]; then
+    fpath=(/opt/homebrew/share/zsh-completions $fpath)
+fi
+
 # zsh補完システムの有効化（zoxideの前に必要）
+# 24時間以上古いダンプは再生成、それ以外はキャッシュ利用で高速起動
 autoload -Uz compinit
-compinit -C
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qNmh+24) ]]; then
+    compinit
+else
+    compinit -C
+fi
 
 # bracketed paste modeの有効化（ペースト時の200~問題を解決）
 autoload -Uz bracketed-paste-magic
