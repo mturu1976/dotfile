@@ -7,9 +7,6 @@ setopt nonomatch
 # zoxide（zsh/.zshrcで既に初期化済みのため、ここでは無効化）
 # eval "$(zoxide init zsh)"
 
-# autojump
-[ -f "$HOMEBREW_PREFIX/etc/profile.d/autojump.sh" ] && . "$HOMEBREW_PREFIX/etc/profile.d/autojump.sh"
-
 # asdf
 # . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
