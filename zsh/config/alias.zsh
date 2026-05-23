@@ -83,10 +83,9 @@ fadd() {
 
 # fzf
 
-# かつていたことのあるディレクトリに移動する
-# https://qiita.com/kamykn/items/aa9920f07487559c0c7e
+# zoxide の履歴からディレクトリを fzf で選んで移動（^z）
 fzf-z-search() {
-    local res=$(z | sort -rn | cut -c 12- | fzf)
+    local res=$(zoxide query --list | fzf)
     if [ -n "$res" ]; then
         BUFFER+="cd $res"
         zle accept-line
