@@ -104,12 +104,10 @@ if command -v zoxide &> /dev/null; then
 fi
 
 # エイリアス：c = 詳細補完を有効化
-alias c='source ~/dotfile/zsh/config/completion.zsh'
-
 # その他の設定は遅延読み込み（必要時に自動読み込み）
 function __load_zsh_configs() {
     if [ -z "$__ZSH_CONFIGS_LOADED" ]; then
-        for config_file in ~/dotfile/zsh/config/{completion,env-init,other}.zsh; do
+        for config_file in ~/dotfile/zsh/config/{env-init,other}.zsh; do
             [ -f "$config_file" ] && source "$config_file"
         done
         export __ZSH_CONFIGS_LOADED=1
