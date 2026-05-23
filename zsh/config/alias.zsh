@@ -1,6 +1,6 @@
 alias ls='eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions'
-alias ll='ls --git --time-style=long-iso -gl'
-alias la='ls --git --time-style=long-iso -agl'
+alias ll='ls --time-style=long-iso -gl'
+alias la='ls --time-style=long-iso -agl'
 alias l1='eza -1'
 
 # cdは標準のまま維持（Claude Codeなどのツールとの互換性のため）
