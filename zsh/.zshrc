@@ -37,7 +37,7 @@ eval "$(oh-my-posh init zsh --config ~/dotfile/.config/oh-my-posh/themes/cyberpu
 export EDITOR="cursor --wait"   # git commit 等で Cursor を使用
 export LANG=ja_JP.UTF-8
 export LC_ALL=ja_JP.UTF-8
-export GIT_PAGER="less -R"
+export GIT_PAGER="delta"
 setopt correct                  # コマンドのタイポを修正提案
 setopt nonomatch                # グロブ不一致時にエラーにしない
 
