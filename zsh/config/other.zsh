@@ -1,8 +1,4 @@
-# コマンドのスペルを訂正
-setopt correct
-
-# nonomatch
-setopt nonomatch
+# setopt correct / nonomatch / EDITOR は .zshrc で起動時に設定済み
 
 # zoxide（zsh/.zshrcで既に初期化済みのため、ここでは無効化）
 # eval "$(zoxide init zsh)"

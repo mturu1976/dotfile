@@ -33,6 +33,14 @@ export PATH="$ASDF_DATA_DIR/shims:$PATH"
 # Oh My Poshの初期化（PATH設定後に実行）
 eval "$(oh-my-posh init zsh --config ~/dotfile/.config/oh-my-posh/themes/cyberpunk.omp.json)"
 
+# 基本設定（起動直後から必要）
+export EDITOR="cursor --wait"   # git commit 等で Cursor を使用
+export LANG=ja_JP.UTF-8
+export LC_ALL=ja_JP.UTF-8
+export GIT_PAGER="less -R"
+setopt correct                  # コマンドのタイポを修正提案
+setopt nonomatch                # グロブ不一致時にエラーにしない
+
 # 高速化：重要な設定のみ即座に読み込み（zoxide初期化前）
 # cdエイリアスはzoxide初期化後に設定するため一時的に除外
 source ~/dotfile/zsh/config/alias.zsh

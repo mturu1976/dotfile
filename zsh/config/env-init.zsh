@@ -12,7 +12,4 @@ export PYTHON_CONFIGURE_OPTS="--with-tcltk-includes='-I$HOMEBREW_PREFIX/opt/tcl-
 # Tesseractに日本語対応
 export TESSDATA_PREFIX="$HOMEBREW_PREFIX/share/tessdata/"
 
-# Git
-export LANG=ja_JP.UTF-8
-export LC_ALL=ja_JP.UTF-8
-export GIT_PAGER="less -R"
+# LANG / LC_ALL / GIT_PAGER / EDITOR は .zshrc で起動時に設定済み
