@@ -22,9 +22,16 @@ fi
 # export STARSHIP_CONFIG="$HOME/dotfile/starship/starship.toml"
 # eval "$(starship init zsh)"
 
+# アーキテクチャに応じてHomebrewプレフィックスを自動判別（Intel / Apple Silicon 共用）
+if [[ "$(uname -m)" == "arm64" ]]; then
+    export HOMEBREW_PREFIX="/opt/homebrew"
+else
+    export HOMEBREW_PREFIX="/usr/local"
+fi
+
 # Homebrewのパス設定
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="/opt/homebrew/sbin:$PATH"
+export PATH="$HOMEBREW_PREFIX/bin:$PATH"
+export PATH="$HOMEBREW_PREFIX/sbin:$PATH"
 
 # asdf (v0.16+ Go版) shimの設定
 export ASDF_DATA_DIR="${ASDF_DATA_DIR:-$HOME/.asdf}"
@@ -35,8 +42,8 @@ export PATH="$ASDF_DATA_DIR/shims:$PATH"
 source ~/dotfile/zsh/config/alias.zsh
 
 # zsh-completions (Homebrew) — compinit より前にfpathへ追加
-if [[ -d /opt/homebrew/share/zsh-completions ]]; then
-    fpath=(/opt/homebrew/share/zsh-completions $fpath)
+if [[ -d $HOMEBREW_PREFIX/share/zsh-completions ]]; then
+    fpath=($HOMEBREW_PREFIX/share/zsh-completions $fpath)
 fi
 
 # zsh補完システムの有効化（zoxideの前に必要）
@@ -62,14 +69,14 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' menu select
 
 # リアルタイム候補表示（zsh-autosuggestions）
-if [[ -f /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
-    source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [[ -f $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#6B7B8C"  # 控えめな色
 fi
 
 # シンタックスハイライト
-if [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-    source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ -f $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+    source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 # fzf キーバインド（^r: 履歴検索、^t: ファイル検索、alt-c: ディレクトリ移動）
@@ -108,14 +115,14 @@ export CONDA_CHANGEPS1=false
 # 遅延読み込みでzsh起動を高速化
 function __conda_lazy_init() {
     if [ -z "$__CONDA_INITIALIZED" ]; then
-        __conda_setup="$('/opt/homebrew/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+        __conda_setup="$("$HOMEBREW_PREFIX/Caskroom/miniconda/base/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
         if [ $? -eq 0 ]; then
             eval "$__conda_setup"
         else
-            if [ -f "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
-                . "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh"
+            if [ -f "$HOMEBREW_PREFIX/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
+                . "$HOMEBREW_PREFIX/Caskroom/miniconda/base/etc/profile.d/conda.sh"
             else
-                export PATH="/opt/homebrew/Caskroom/miniconda/base/bin:$PATH"
+                export PATH="$HOMEBREW_PREFIX/Caskroom/miniconda/base/bin:$PATH"
             fi
         fi
         unset __conda_setup

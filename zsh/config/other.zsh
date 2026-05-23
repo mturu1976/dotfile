@@ -8,7 +8,7 @@ setopt nonomatch
 # eval "$(zoxide init zsh)"
 
 # autojump
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+[ -f "$HOMEBREW_PREFIX/etc/profile.d/autojump.sh" ] && . "$HOMEBREW_PREFIX/etc/profile.d/autojump.sh"
 
 # asdf
 # . /opt/homebrew/opt/asdf/libexec/asdf.sh
