@@ -24,13 +24,10 @@ eval "$(direnv hook zsh)"
 #export PATH="$HOME/.anyenv/bin:$PATH"
 #eval "$(anyenv init -)"
 
-# HSTR configuration
+# HSTR configuration（^r はfzfに統一。hstr は hh エイリアスで直接使用可）
 alias hh=hstr
 setopt histignorespace
 export HSTR_CONFIG=hicolor
-bindkey -s "\C-r" "\C-a hstr -- \C-j"
-export HISTFILESIZE=10000
-export HISTSIZE=${HISTFILESIZE}
 
 # zsh-completions (Homebrew) — fpath追加はcompinit前に必要なため.zshrcで設定済み
 # zsh-syntax-highlighting / zsh-autosuggestions も .zshrc で直接ロード済み

@@ -15,8 +15,7 @@
 #   eval "$(poetry completions zsh)"
 # fi
 
-# fzf の設定
-#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-eval "$(fzf --zsh)"
+# fzf の設定（キーバインドは .zshrc で起動時に初期化済み）
+# eval "$(fzf --zsh)"
 
 # zsh-syntax-highlighting / zsh-autosuggestions は .zshrc で Homebrew から直接ロード済み

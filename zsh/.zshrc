@@ -72,6 +72,11 @@ if [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
     source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
+# fzf キーバインド（^r: 履歴検索、^t: ファイル検索、alt-c: ディレクトリ移動）
+if command -v fzf &> /dev/null; then
+    eval "$(fzf --zsh)"
+fi
+
 # zoxide（z）- スマートディレクトリジャンプ
 # cdは標準のまま維持（Claude Codeなどのツールとの互換性のため）
 # zoxideのスマートジャンプは`z`コマンドで手動使用
