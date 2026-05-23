@@ -13,9 +13,8 @@ setopt nonomatch
 # asdf
 # . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
-# direnv
+# direnv は .zshrc で起動時に初期化済み
 export EDITOR=code
-eval "$(direnv hook zsh)"
 
 # anyenv
 #export PATH="$HOME/.anyenv/bin:$PATH"

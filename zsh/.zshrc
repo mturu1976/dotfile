@@ -94,6 +94,11 @@ if command -v fzf &> /dev/null; then
     eval "$(fzf --zsh)"
 fi
 
+# direnv（ディレクトリ移動時に .envrc を自動読み込み）
+if command -v direnv &> /dev/null; then
+    eval "$(direnv hook zsh)"
+fi
+
 # zoxide（z）- スマートディレクトリジャンプ
 # cdは標準のまま維持（Claude Codeなどのツールとの互換性のため）
 # zoxideのスマートジャンプは`z`コマンドで手動使用
