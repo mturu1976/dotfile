@@ -1,9 +1,6 @@
 # コマンドのスペルを訂正
 setopt correct
 
-# the fuck
-eval $(thefuck --alias)
-
 # nonomatch
 setopt nonomatch
 
