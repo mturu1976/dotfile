@@ -104,7 +104,7 @@ if command -v zoxide &> /dev/null; then
 fi
 
 # エイリアス：c = 詳細補完を有効化
-alias c='source ~/dotfile/zsh/config/completion.zsh && echo "詳細補完有効化完了"'
+alias c='source ~/dotfile/zsh/config/completion.zsh'
 
 # その他の設定は遅延読み込み（必要時に自動読み込み）
 function __load_zsh_configs() {
