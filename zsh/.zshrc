@@ -119,7 +119,9 @@ function __conda_lazy_init() {
 }
 
 # condaコマンドが呼ばれた時に初期化
+# unfunctionでラッパー自身を先に削除してから初期化→再呼び出しすることで無限再帰を防ぐ
 function conda() {
+    unfunction conda
     __conda_lazy_init
     conda "$@"
 }
