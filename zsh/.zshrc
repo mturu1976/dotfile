@@ -18,10 +18,6 @@ if [[ $- == *i* ]]; then
     echo -ne '\e[2 q'  # ブロックカーソル
 fi
 
-# Starshipの設定（無効化）
-# export STARSHIP_CONFIG="$HOME/dotfile/starship/starship.toml"
-# eval "$(starship init zsh)"
-
 # アーキテクチャに応じてHomebrewプレフィックスを自動判別（Intel / Apple Silicon 共用）
 if [[ "$(uname -m)" == "arm64" ]]; then
     export HOMEBREW_PREFIX="/opt/homebrew"
