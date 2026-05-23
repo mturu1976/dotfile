@@ -59,6 +59,16 @@ fi
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
 
+# ヒストリー設定（起動直後から有効になるようここで定義）
+export HISTFILE="${HOME}/.zsh_history"
+export HISTSIZE=50000
+export SAVEHIST=600000
+setopt HIST_IGNORE_DUPS      # 直前と同じコマンドは記録しない
+setopt HIST_IGNORE_ALL_DUPS  # 重複コマンドを全削除
+setopt HIST_REDUCE_BLANKS    # 余分なスペースを削除して記録
+setopt SHARE_HISTORY         # 複数ターミナル間で履歴をリアルタイム共有
+setopt HIST_VERIFY           # !! 展開時に即実行せず確認する
+
 # 基本的な補完設定
 setopt AUTO_MENU
 setopt COMPLETE_IN_WORD

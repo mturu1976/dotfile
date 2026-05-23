@@ -22,6 +22,7 @@ eval "$(direnv hook zsh)"
 #eval "$(anyenv init -)"
 
 # HSTR configuration（^r はfzfに統一。hstr は hh エイリアスで直接使用可）
+# HISTSIZE / SAVEHIST は .zshrc で定義済みのためここでは設定しない
 alias hh=hstr
 setopt histignorespace
 export HSTR_CONFIG=hicolor

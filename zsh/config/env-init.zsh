@@ -1,9 +1,6 @@
 # HOMEBREW_PREFIX は .zshrc で設定済み（arm64: /opt/homebrew、x86_64: /usr/local）
 
-# 環境変数の設定
-export HISTFILE=${HOME}/.zsh_history
-export HISTSIZE=50000
-export SAVEHIST=600000
+# ヒストリー設定は .zshrc で起動時に定義済み
 
 # tcl-tk（Pythonビルド時の tkinter 対応）
 export PATH="$HOMEBREW_PREFIX/opt/tcl-tk/bin:$PATH"
