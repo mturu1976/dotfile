@@ -27,7 +27,18 @@ alias work="timer 8m && terminal-notifier -message 'Pomodoro'\
 
 # 他のalias
 
-# Git
+# Git 基本エイリアス
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git pull'
+alias gd='git diff'
+alias gco='git checkout'
+alias gb='git branch'
+alias glog='git log --oneline --graph --decorate'
+
+# Git fzf 関数
 # fgc (git checkout) - checkout git branch including remote branches
 # ref: https://qiita.com/kamykn/items/aa9920f07487559c0c7e
 fgc() {
