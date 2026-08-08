@@ -7,22 +7,27 @@ echo "🔍 Checking dependencies..."
 REQUIRED_COMMANDS=(
     "zsh"
     "tmux"
-    "starship"
+    "oh-my-posh"
     "fzf"
     "eza"
     "zoxide"
     "direnv"
     "git"
+    "delta"
     "nvim"
     "bat"
 )
 
 # Optional commands
 OPTIONAL_COMMANDS=(
-    "thefuck"
     "hstr"
     "timer"
     "terminal-notifier"
+    "btop"
+    "duf"
+    "dust"
+    "glow"
+    "procs"
 )
 
 missing_required=()
@@ -58,12 +63,10 @@ else
         echo "  - $cmd"
     done
     echo ""
-    echo "💡 Install missing dependencies with:"
-    echo "brew install ${missing_required[*]}"
+    echo "💡 Install everything with:  brew bundle"
 fi
 
 if [ ${#missing_optional[@]} -gt 0 ]; then
     echo ""
-    echo "💡 Optional dependencies can be installed with:"
-    echo "brew install ${missing_optional[*]}"
+    echo "💡 Optional tools are also covered by:  brew bundle"
 fi 

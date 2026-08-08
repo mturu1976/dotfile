@@ -13,42 +13,29 @@ Modern, modular dotfiles configuration for macOS with zsh, tmux, and starship.
 
 ## 🚀 Quick Start
 
-### Automated Installation (Recommended)
+The repository must live at `~/dotfile` — `.zshrc` references that path directly.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/dotfile.git ~/dotfile
+git clone https://github.com/mturu1976/dotfile.git ~/dotfile
 cd ~/dotfile
 
-# Check dependencies
-./check-deps.sh
-
-# Install missing dependencies
+# Install dependencies
 brew bundle
 
-# Install dotfiles
-./install.sh
-```
-
-### Manual Installation
-
-```bash
-# Create directories
-mkdir -p ~/.zshrc.d ~/.config
+# Check for anything still missing
+./check-deps.sh
 
 # Create symlinks
 ln -sf ~/dotfile/zsh/.zshrc ~/.zshrc
-ln -sf ~/dotfile/zsh/config/alias.zsh ~/.zshrc.d/alias.zsh
-ln -sf ~/dotfile/zsh/config/env-init.zsh ~/.zshrc.d/env-init.zsh
-ln -sf ~/dotfile/zsh/config/completion.zsh ~/.zshrc.d/completion.zsh
-ln -sf ~/dotfile/zsh/config/other.zsh ~/.zshrc.d/other.zsh
-ln -sf ~/dotfile/zsh/config/poetry.zsh ~/.zshrc.d/poetry.zsh
 ln -sf ~/dotfile/.tmux.conf ~/.tmux.conf
-ln -sf ~/dotfile/starship/starship.toml ~/.config/starship.toml
+ln -sf ~/dotfile/.tmux-cheatsheet.md ~/.tmux-cheatsheet.md
 
-# Install tmux plugin manager
+# Install tmux plugin manager, then `prefix + I` inside tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
+
+`zsh/config/alias.zsh` is sourced by `.zshrc` directly — no symlink needed.
 
 ## 📁 Structure
 
@@ -56,12 +43,11 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ~/dotfile/
 ├── zsh/
 │   ├── .zshrc              # Main zsh configuration
+│   ├── prompt-switcher.zsh # Prompt switching helper
 │   └── config/
-│       ├── alias.zsh       # Aliases and functions
-│       ├── env-init.zsh    # Environment variables
-│       ├── completion.zsh  # Completion settings
-│       ├── other.zsh       # Other configurations
-│       └── poetry.zsh      # Poetry configuration
+│       ├── alias.zsh       # Aliases and functions (sourced at startup)
+│       ├── env-init.zsh    # Environment variables (lazy-loaded)
+│       └── other.zsh       # Other settings (lazy-loaded)
 ├── .config/
 │   └── oh-my-posh/
 │       └── themes/         # Oh My Posh themes
@@ -70,7 +56,6 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ├── .tmux-cheatsheet.md     # Tmux keybindings reference
 ├── .zshrc.minimal          # Minimal zsh config for fast startup
 ├── Brewfile                # Homebrew dependencies
-├── install.sh              # Automated installation script
 └── check-deps.sh           # Dependency checker
 ```
 
@@ -195,7 +180,7 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 Each configuration module can be customized independently:
 
 - **Aliases**: Edit `zsh/config/alias.zsh`
-- **Environment**: Edit `zsh/config/env-init.zsh`
+- **Environment / PATH**: Edit `zsh/.zshrc` (startup) or `zsh/config/env-init.zsh` (lazy-loaded)
 - **Prompt**: Edit `.config/oh-my-posh/themes/`
 - **Tmux**: Edit `.tmux.conf`
 
