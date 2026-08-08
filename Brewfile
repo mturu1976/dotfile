@@ -2,7 +2,7 @@
 # Usage: brew bundle
 
 # Taps
-tap "homebrew/bundle"
+tap "caarlos0/tap"      # timer 用
 
 # Essential tools
 brew "zsh"
@@ -38,10 +38,10 @@ brew "asdf"
 # Optional but useful
 brew "hstr"
 brew "terminal-notifier"
-brew "timer"
+brew "caarlos0/tap/timer"
 
 # GUI Applications (optional)
-cask "coteditor" if OS.mac?
+# CotEditor は App Store 版を使用（cask だと既存インストールと衝突して sudo を要求される）
 
 # Fonts
 cask "font-hack-nerd-font" if OS.mac?
