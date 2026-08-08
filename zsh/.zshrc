@@ -30,6 +30,24 @@ export PATH="$HOMEBREW_PREFIX/sbin:$PATH"
 export ASDF_DATA_DIR="${ASDF_DATA_DIR:-$HOME/.asdf}"
 export PATH="$ASDF_DATA_DIR/shims:$PATH"
 
+# FPATH汚染への防御
+# tmuxサーバー等から古いzshのFPATHを継承すると、brew upgrade後に消えた
+# Cellarパスを指したままになり、標準関数(is-at-least等)が読めず
+# oh-my-poshやsyntax-highlightingが壊れる
+typeset +x FPATH            # FPATHを子プロセスにexportしない
+fpath=(${^fpath}(N-/))      # 存在しないディレクトリを除去
+__std_fns=(${^fpath}/is-at-least(N))
+if (( ! ${#__std_fns} )); then
+    # 標準関数ディレクトリが失われていたら、実行中のzshに合うものを補う
+    for __fn_dir in "/usr/share/zsh/${ZSH_VERSION}/functions" "$HOMEBREW_PREFIX/share/zsh/functions"; do
+        if [[ -d $__fn_dir ]]; then
+            fpath+=("$__fn_dir")
+            break
+        fi
+    done
+fi
+unset __std_fns __fn_dir
+
 # Oh My Poshの初期化（PATH設定後に実行）
 eval "$(oh-my-posh init zsh --config ~/dotfile/.config/oh-my-posh/themes/cyberpunk.omp.json)"
 
