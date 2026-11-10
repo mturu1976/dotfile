@@ -1,0 +1,65 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 3,
+  "final_space": false,
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "claude",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#F3F4F6",
+          "background": "#1F2937",
+          "template": " 󰚩 {{ .Model.DisplayName }} "
+        },
+        {
+          "type": "claude",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#D1D5DB",
+          "background": "#374151",
+          "background_templates": [
+            "{{ if gt (.TokenUsagePercent.String | atoi) 80 }}#B87C7C{{ end }}",
+            "{{ if gt (.TokenUsagePercent.String | atoi) 60 }}#C4A775{{ end }}"
+          ],
+          "template": " {{ .TokenGaugeUsed }} {{ .TokenUsagePercent }}% "
+        },
+        {
+          "type": "claude",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#8B93C7",
+          "background": "#1F2937",
+          "template": " {{ .FormattedCost }} · {{ .FormattedDuration }}{{ if .PromptCache }} · cache {{ .PromptCacheHitRatio }}%{{ end }}{{ if gt (.FiveHourUsage.String | atoi) 0 }} · 5h {{ .FiveHourUsage }}%{{ end }} "
+        },
+        {
+          "type": "path",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#D1D5DB",
+          "background": "#374151",
+          "properties": {
+            "style": "short",
+            "max_depth": 2
+          },
+          "template": "  {{ .Path }} "
+        },
+        {
+          "type": "git",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#F3F4F6",
+          "background": "#1F2937",
+          "properties": {
+            "branch_icon": " ",
+            "branch_template": "{{ .Branch }}"
+          },
+          "template": " {{ .HEAD }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }} "
+        }
+      ]
+    }
+  ]
+}

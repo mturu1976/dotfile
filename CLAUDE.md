@@ -36,6 +36,7 @@ tmux attach -t <name>              # Attach to session
 # prefix+g: Git popup window
 # prefix+C: Claude Code popup  
 # prefix+N: Notes popup
+# prefix+w: Window/session picker (fzf; C-g jump to current, C-r rename session, C-e note)
 # Alt+h/j/k/l: Seamless vim-tmux pane navigation
 ```
 
@@ -53,6 +54,7 @@ tmux attach -t <name>              # Attach to session
 ### Theme System
 - **Oh My Posh**: Primary prompt system via `cyberpunk.omp.json`
 - **Starship**: Alternative prompt in `starship/starship.toml` (currently disabled)
+- **Claude Code statusline**: `claude.omp.json`, rendered by `oh-my-posh claude` (set in `~/.claude/settings.json` → `statusLine`)
 - **Conditional loading**: Different prompts for tmux vs standalone sessions via `prompt-switcher.zsh`
 
 ### Performance Optimization Patterns

@@ -37,6 +37,9 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 `zsh/config/alias.zsh` is sourced by `.zshrc` directly — no symlink needed.
 
+**Secrets:** this repository is public. Put API keys and machine-specific settings in `~/.zshrc.local` (`chmod 600`, outside the repo); `.zshrc` sources it if present.
+`~/.zshrc` is a symlink into this repo, so if an installer appends an `export …_KEY=…` line to it, move that line to `~/.zshrc.local` before committing.
+
 ## 📁 Structure
 
 ```
@@ -172,7 +175,7 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ## 🎨 Themes
 
 - **Tmux**: Gruvbox Dark theme
-- **Oh My Posh**: Microverse Power theme
+- **Oh My Posh**: `cyberpunk.omp.json` (prompt) and `claude.omp.json` (Claude Code statusline via `oh-my-posh claude`)
 - **Terminal**: Optimized for Nerd Fonts
 
 ## 🔧 Customization
