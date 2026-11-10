@@ -90,6 +90,7 @@ setopt HIST_IGNORE_ALL_DUPS  # 重複コマンドを全削除
 setopt HIST_REDUCE_BLANKS    # 余分なスペースを削除して記録
 setopt SHARE_HISTORY         # 複数ターミナル間で履歴をリアルタイム共有
 setopt HIST_VERIFY           # !! 展開時に即実行せず確認する
+setopt HIST_IGNORE_SPACE     # 先頭にスペースを付けたコマンドは履歴に残さない（秘密を含む入力用）
 
 # 基本的な補完設定
 setopt AUTO_MENU
@@ -190,3 +191,6 @@ bindkey "^K" kill-line
 # Added by Antigravity
 export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+
+# マシン固有・秘密の設定（リポジトリ外、権限600）。APIキー等はここに書く
+[[ -r ~/.zshrc.local ]] && source ~/.zshrc.local

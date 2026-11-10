@@ -54,7 +54,7 @@ fgc() {
   branches=$(git branch --all | grep -v HEAD) &&
   branch=$(echo "$branches" |
            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+  git checkout "$(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")"
 }
 
 # flog - git commit browser
@@ -106,7 +106,8 @@ fadd() {
 fzf-z-search() {
     local res=$(zoxide query --list | fzf)
     if [ -n "$res" ]; then
-        BUFFER+="cd $res"
+        # (q) でクォートし、ディレクトリ名に含まれる記号がコマンドとして実行されないようにする
+        BUFFER+="cd -- ${(q)res}"
         zle accept-line
     else
         return 1

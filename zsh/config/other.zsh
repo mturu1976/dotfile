@@ -16,7 +16,7 @@ export EDITOR=code
 # HSTR configuration（^r はfzfに統一。hstr は hh エイリアスで直接使用可）
 # HISTSIZE / SAVEHIST は .zshrc で定義済みのためここでは設定しない
 alias hh=hstr
-setopt histignorespace
+# HIST_IGNORE_SPACE は .zshrc で起動時に設定済み
 export HSTR_CONFIG=hicolor
 
 # zsh-completions (Homebrew) — fpath追加はcompinit前に必要なため.zshrcで設定済み
