@@ -49,8 +49,8 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 │   ├── prompt-switcher.zsh # Prompt switching helper
 │   └── config/
 │       ├── alias.zsh       # Aliases and functions (sourced at startup)
-│       ├── env-init.zsh    # Environment variables (lazy-loaded)
-│       └── other.zsh       # Other settings (lazy-loaded)
+│       ├── env-init.zsh    # Environment variables (existence-guarded per machine)
+│       └── other.zsh       # Other settings (sourced at startup, existence-guarded)
 ├── .config/
 │   └── oh-my-posh/
 │       └── themes/         # Oh My Posh themes
@@ -183,7 +183,7 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 Each configuration module can be customized independently:
 
 - **Aliases**: Edit `zsh/config/alias.zsh`
-- **Environment / PATH**: Edit `zsh/.zshrc` (startup) or `zsh/config/env-init.zsh` (lazy-loaded)
+- **Environment / PATH**: Edit `zsh/.zshrc` (startup) or `zsh/config/env-init.zsh` (sourced at startup; each block is guarded by an existence check so the same file works on every Mac). Machine-specific values and secrets go in `~/.zshrc.local` (outside the repo, sourced last)
 - **Prompt**: Edit `.config/oh-my-posh/themes/`
 - **Tmux**: Edit `.tmux.conf`
 

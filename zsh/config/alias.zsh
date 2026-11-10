@@ -23,15 +23,9 @@ alias mkdir='mkdir -p'
 alias cot="open -a /Applications/CotEditor.app"
 
 alias vim='nvim'
-alias sakiokuri0="timer 8m && terminal-notifier -message 'Pomodoro'\
--title 'ワークタイマー作動 休憩 😀'\
--appIcon ' -/Pictures/pumpkin.png'\
--sound Crystal"
+alias sakiokuri0="timer 8m && terminal-notifier -message 'Pomodoro' -title 'ワークタイマー作動 休憩 😀' -sound Crystal"
 
-alias work="timer 8m && terminal-notifier -message 'Pomodoro'\
--title 'work Timer is up! Take a Break 😀'\
--appIcon ' -/Pictures/pumpkin.png'\
--sound Crystal"
+alias work="timer 8m && terminal-notifier -message 'Pomodoro' -title 'work Timer is up! Take a Break 😀' -sound Crystal"
 
 # 他のalias
 
@@ -71,7 +65,7 @@ flog() {
              "
 }
 
-# fd - cd to selected directory
+# fcd - cd to selected directory
 # https://qiita.com/kamykn/items/aa9920f07487559c0c7e
 fcd() {
   local dir
@@ -107,7 +101,7 @@ fzf-z-search() {
     local res=$(zoxide query --list | fzf)
     if [ -n "$res" ]; then
         # (q) でクォートし、ディレクトリ名に含まれる記号がコマンドとして実行されないようにする
-        BUFFER+="cd -- ${(q)res}"
+        BUFFER="cd -- ${(q)res}"
         zle accept-line
     else
         return 1

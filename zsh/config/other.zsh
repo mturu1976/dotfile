@@ -1,24 +1,8 @@
-# setopt correct / nonomatch / EDITOR は .zshrc で起動時に設定済み
-
-# zoxide（zsh/.zshrcで既に初期化済みのため、ここでは無効化）
-# eval "$(zoxide init zsh)"
-
-# asdf
-# . /opt/homebrew/opt/asdf/libexec/asdf.sh
-
-# direnv は .zshrc で起動時に初期化済み
-export EDITOR=code
-
-# anyenv
-#export PATH="$HOME/.anyenv/bin:$PATH"
-#eval "$(anyenv init -)"
+# EDITOR / LANG / setopt correct などは .zshrc で設定済み
+# zoxide / direnv / asdf / 補完 / ハイライトも .zshrc で初期化済み
 
 # HSTR configuration（^r はfzfに統一。hstr は hh エイリアスで直接使用可）
-# HISTSIZE / SAVEHIST は .zshrc で定義済みのためここでは設定しない
-alias hh=hstr
-# HIST_IGNORE_SPACE は .zshrc で起動時に設定済み
-export HSTR_CONFIG=hicolor
-
-# zsh-completions (Homebrew) — fpath追加はcompinit前に必要なため.zshrcで設定済み
-# zsh-syntax-highlighting / zsh-autosuggestions も .zshrc で直接ロード済み
-# enhancd は zoxide (z コマンド) で代替。cd 標準維持のため不要
+if command -v hstr &> /dev/null; then
+    alias hh=hstr
+    export HSTR_CONFIG=hicolor
+fi

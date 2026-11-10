@@ -25,8 +25,8 @@ bindkey "^K" kill-line
 
 # 補完（最小限）
 autoload -Uz compinit
-if [[ -n ${ZDOTDIR}/.zcompdump(#qNmh+24) ]]; then
-  compinit
-else
-  compinit -C
-fi
+() {
+  setopt localoptions extendedglob   # (#q…) に必要
+  local dump=${ZDOTDIR:-$HOME}/.zcompdump
+  if [[ -n $dump(#qN.mh+24) ]]; then compinit && touch "$dump"; else compinit -C; fi
+}

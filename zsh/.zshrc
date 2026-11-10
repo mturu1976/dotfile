@@ -1,4 +1,3 @@
-#!/bin/zsh
 # Modern zsh configuration - High Performance & Cyberpunk Theme
 
 # Return early if not zsh
@@ -16,19 +15,26 @@ if [[ $- == *i* ]]; then
 fi
 
 # アーキテクチャに応じてHomebrewプレフィックスを自動判別（Intel / Apple Silicon 共用）
-if [[ "$(uname -m)" == "arm64" ]]; then
+if [[ $CPUTYPE == arm64 ]]; then
     export HOMEBREW_PREFIX="/opt/homebrew"
 else
     export HOMEBREW_PREFIX="/usr/local"
 fi
 
-# Homebrewのパス設定
-export PATH="$HOMEBREW_PREFIX/bin:$PATH"
-export PATH="$HOMEBREW_PREFIX/sbin:$PATH"
+# PATH / FPATH の重複を自動排除（tmux等から継承した重複も消える）
+typeset -U path fpath
 
-# asdf (v0.16+ Go版) shimの設定
+# PATH（存在しないディレクトリは無害。マシンごとの差はここに出る）
 export ASDF_DATA_DIR="${ASDF_DATA_DIR:-$HOME/.asdf}"
-export PATH="$ASDF_DATA_DIR/shims:$PATH"
+path=(
+    "$HOME/.local/bin"
+    "$HOME/.antigravity/antigravity/bin"
+    "$HOME/.codeium/windsurf/bin"
+    "$ASDF_DATA_DIR/shims"
+    "$HOMEBREW_PREFIX/sbin"
+    "$HOMEBREW_PREFIX/bin"
+    $path
+)
 
 # FPATH汚染への防御
 # tmuxサーバー等から古いzshのFPATHを継承すると、brew upgrade後に消えた
@@ -51,7 +57,7 @@ unset __std_fns __fn_dir
 # Oh My Poshの初期化（PATH設定後に実行）
 eval "$(oh-my-posh init zsh --config ~/dotfile/.config/oh-my-posh/themes/cyberpunk.omp.json)"
 
-# 基本設定（起動直後から必要）
+# 基本設定
 export EDITOR="cursor --wait"   # git commit 等で Cursor を使用
 export LANG=ja_JP.UTF-8
 export LC_ALL=ja_JP.UTF-8
@@ -59,33 +65,14 @@ export GIT_PAGER="delta"
 setopt correct                  # コマンドのタイポを修正提案
 setopt nonomatch                # グロブ不一致時にエラーにしない
 
-# 高速化：重要な設定のみ即座に読み込み（zoxide初期化前）
-# cdエイリアスはzoxide初期化後に設定するため一時的に除外
-source ~/dotfile/zsh/config/alias.zsh
+# キーバインド（プラグインより前に確定させる）
+bindkey -e
+bindkey "^K" kill-line
 
-# zsh-completions (Homebrew) — compinit より前にfpathへ追加
-if [[ -d $HOMEBREW_PREFIX/share/zsh-completions ]]; then
-    fpath=($HOMEBREW_PREFIX/share/zsh-completions $fpath)
-fi
-
-# zsh補完システムの有効化（zoxideの前に必要）
-# 24時間以上古いダンプは再生成、それ以外はキャッシュ利用で高速起動
-autoload -Uz compinit
-if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qNmh+24) ]]; then
-    compinit
-else
-    compinit -C
-fi
-
-# bracketed paste modeの有効化（ペースト時の200~問題を解決）
-autoload -Uz bracketed-paste-magic
-zle -N bracketed-paste bracketed-paste-magic
-
-# ヒストリー設定（起動直後から有効になるようここで定義）
-export HISTFILE="${HOME}/.zsh_history"
-export HISTSIZE=50000
-export SAVEHIST=600000
-setopt HIST_IGNORE_DUPS      # 直前と同じコマンドは記録しない
+# ヒストリー設定
+HISTFILE="${HOME}/.zsh_history"
+HISTSIZE=100000
+SAVEHIST=100000
 setopt HIST_IGNORE_ALL_DUPS  # 重複コマンドを全削除
 setopt HIST_REDUCE_BLANKS    # 余分なスペースを削除して記録
 setopt SHARE_HISTORY         # 複数ターミナル間で履歴をリアルタイム共有
@@ -97,6 +84,35 @@ setopt AUTO_MENU
 setopt COMPLETE_IN_WORD
 setopt ALWAYS_TO_END
 
+# 分割設定（すべてサブプロセス無し。マシン差は各ファイル内の存在チェックで吸収）
+for __cfg in ~/dotfile/zsh/config/{alias,env-init,other}.zsh; do
+    [[ -f $__cfg ]] && source "$__cfg"
+done
+unset __cfg
+
+# zsh-completions (Homebrew) — compinit より前にfpathへ追加
+if [[ -d $HOMEBREW_PREFIX/share/zsh-completions ]]; then
+    fpath=($HOMEBREW_PREFIX/share/zsh-completions $fpath)
+fi
+
+# zsh補完システムの有効化（zoxideの前に必要）
+# 24時間以上古いダンプは再検査、それ以外はキャッシュ利用（-C）で高速起動
+# (#q…) は EXTENDED_GLOB が必要なので無名関数内で局所的に有効化
+autoload -Uz compinit
+() {
+    setopt localoptions extendedglob
+    local dump=${ZDOTDIR:-$HOME}/.zcompdump
+    if [[ -n $dump(#qN.mh+24) ]]; then
+        compinit && touch "$dump"   # 再検査後は次回から -C に戻す
+    else
+        compinit -C
+    fi
+}
+
+# bracketed paste modeの有効化（ペースト時の200~問題を解決）
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic
+
 # 補完スタイル
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' menu select
@@ -105,11 +121,6 @@ zstyle ':completion:*' menu select
 if [[ -f $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
     source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#6B7B8C"  # 控えめな色
-fi
-
-# シンタックスハイライト
-if [[ -f $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-    source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 # fzf キーバインド（^r: 履歴検索、^t: ファイル検索、alt-c: ディレクトリ移動）
@@ -130,67 +141,52 @@ if command -v zoxide &> /dev/null; then
     eval "$(zoxide init zsh)"
 fi
 
-# エイリアス：c = 詳細補完を有効化
-# その他の設定は遅延読み込み（必要時に自動読み込み）
-function __load_zsh_configs() {
-    if [ -z "$__ZSH_CONFIGS_LOADED" ]; then
-        for config_file in ~/dotfile/zsh/config/{env-init,other}.zsh; do
-            [ -f "$config_file" ] && source "$config_file"
-        done
-        export __ZSH_CONFIGS_LOADED=1
-    fi
-}
-
-# 特定のコマンド実行時に設定を読み込み
-function poetry() { __load_zsh_configs; command poetry "$@"; }
-
 # >>> conda initialize (lazy loading for performance) >>>
-# conda環境名をプロンプトに表示しない
-export CONDA_CHANGEPS1=false
+# miniconda が入っているマシンでのみ有効（無いマシンでは python をラップしない）
+if [[ -d $HOMEBREW_PREFIX/Caskroom/miniconda/base ]]; then
+    # conda環境名をプロンプトに表示しない
+    export CONDA_CHANGEPS1=false
 
-# 遅延読み込みでzsh起動を高速化
-function __conda_lazy_init() {
-    if [ -z "$__CONDA_INITIALIZED" ]; then
-        __conda_setup="$("$HOMEBREW_PREFIX/Caskroom/miniconda/base/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
-        if [ $? -eq 0 ]; then
-            eval "$__conda_setup"
-        else
-            if [ -f "$HOMEBREW_PREFIX/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
-                . "$HOMEBREW_PREFIX/Caskroom/miniconda/base/etc/profile.d/conda.sh"
+    # 遅延読み込みでzsh起動を高速化
+    function __conda_lazy_init() {
+        if [ -z "$__CONDA_INITIALIZED" ]; then
+            __conda_setup="$("$HOMEBREW_PREFIX/Caskroom/miniconda/base/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
+            if [ $? -eq 0 ]; then
+                eval "$__conda_setup"
             else
-                export PATH="$HOMEBREW_PREFIX/Caskroom/miniconda/base/bin:$PATH"
+                if [ -f "$HOMEBREW_PREFIX/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
+                    . "$HOMEBREW_PREFIX/Caskroom/miniconda/base/etc/profile.d/conda.sh"
+                else
+                    export PATH="$HOMEBREW_PREFIX/Caskroom/miniconda/base/bin:$PATH"
+                fi
             fi
+            unset __conda_setup
+            typeset -g __CONDA_INITIALIZED=1   # exportしない（子シェルは自前で初期化する）
         fi
-        unset __conda_setup
-        export __CONDA_INITIALIZED=1
-    fi
-}
+    }
 
-# condaコマンドが呼ばれた時に初期化
-# unfunctionでラッパー自身を先に削除してから初期化→再呼び出しすることで無限再帰を防ぐ
-function conda() {
-    unfunction conda
-    __conda_lazy_init
-    conda "$@"
-}
+    # condaコマンドが呼ばれた時に初期化
+    # unfunctionでラッパー自身を先に削除してから初期化→再呼び出しすることで無限再帰を防ぐ
+    function conda() {
+        unfunction conda
+        __conda_lazy_init
+        conda "$@"
+    }
 
-# python実行時もconda環境を考慮
-function python() {
-    __conda_lazy_init
-    command python "$@"
-}
+    # python実行時もconda環境を考慮
+    function python() {
+        __conda_lazy_init
+        command python "$@"
+    }
+fi
 # <<< conda initialize <<<
 
-# Added by Windsurf
-export PATH="$HOME/.codeium/windsurf/bin:$PATH"
-bindkey -e
-bindkey "^K" kill-line
+[[ "$TERM_PROGRAM" == "kiro" ]] && command -v kiro &> /dev/null && . "$(kiro --locate-shell-integration-path zsh)"
 
-[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
-# GitHub token is set via environment variables for security
-# Added by Antigravity
-export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
+# シンタックスハイライト（公式推奨: 他のウィジェット定義より後、最後に読む）
+if [[ -f $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+    source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
 
 # マシン固有・秘密の設定（リポジトリ外、権限600）。APIキー等はここに書く
 [[ -r ~/.zshrc.local ]] && source ~/.zshrc.local
