@@ -60,15 +60,16 @@ tmux attach -t <name>              # Attach to session
 ### Performance Optimization Patterns
 
 #### Lazy Loading Implementation
-The codebase uses extensive lazy loading for performance:
+Heavy tools are initialized on first use, not at startup. Pattern:
 ```bash
-# Conda lazy initialization pattern
-function conda() {
-    unset -f conda
-    eval "$(/opt/homebrew/bin/conda shell.zsh hook)"
-    conda "$@"
+# Lazy initialization pattern (define a wrapper, replace itself on first call)
+function nvm() {
+    unset -f nvm
+    source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+    nvm "$@"
 }
 ```
+Note: `python` is intentionally not wrapped; it resolves to the asdf shim.
 
 #### Plugin Management Strategy
 - Heavy tmux plugins (cpu monitoring, complex status bars) are commented out

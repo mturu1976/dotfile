@@ -141,46 +141,6 @@ if command -v zoxide &> /dev/null; then
     eval "$(zoxide init zsh)"
 fi
 
-# >>> conda initialize (lazy loading for performance) >>>
-# miniconda が入っているマシンでのみ有効（無いマシンでは python をラップしない）
-if [[ -d $HOMEBREW_PREFIX/Caskroom/miniconda/base ]]; then
-    # conda環境名をプロンプトに表示しない
-    export CONDA_CHANGEPS1=false
-
-    # 遅延読み込みでzsh起動を高速化
-    function __conda_lazy_init() {
-        if [ -z "$__CONDA_INITIALIZED" ]; then
-            __conda_setup="$("$HOMEBREW_PREFIX/Caskroom/miniconda/base/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
-            if [ $? -eq 0 ]; then
-                eval "$__conda_setup"
-            else
-                if [ -f "$HOMEBREW_PREFIX/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
-                    . "$HOMEBREW_PREFIX/Caskroom/miniconda/base/etc/profile.d/conda.sh"
-                else
-                    export PATH="$HOMEBREW_PREFIX/Caskroom/miniconda/base/bin:$PATH"
-                fi
-            fi
-            unset __conda_setup
-            typeset -g __CONDA_INITIALIZED=1   # exportしない（子シェルは自前で初期化する）
-        fi
-    }
-
-    # condaコマンドが呼ばれた時に初期化
-    # unfunctionでラッパー自身を先に削除してから初期化→再呼び出しすることで無限再帰を防ぐ
-    function conda() {
-        unfunction conda
-        __conda_lazy_init
-        conda "$@"
-    }
-
-    # python実行時もconda環境を考慮
-    function python() {
-        __conda_lazy_init
-        command python "$@"
-    }
-fi
-# <<< conda initialize <<<
-
 [[ "$TERM_PROGRAM" == "kiro" ]] && command -v kiro &> /dev/null && . "$(kiro --locate-shell-integration-path zsh)"
 
 # シンタックスハイライト（公式推奨: 他のウィジェット定義より後、最後に読む）

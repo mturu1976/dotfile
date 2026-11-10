@@ -169,7 +169,7 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ### Performance Optimizations
 - Status bar update interval: 5 seconds (reduced CPU usage)
 - Disabled heavy monitoring plugins (CPU, battery indicators)
-- Lazy loading for conda and other heavy tools in zsh
+- Zsh startup does no subprocess work beyond prompt/fzf/zoxide init (~0.06s)
 - Minimal configuration available at `.tmux-minimal.conf`
 
 ## 🎨 Themes
@@ -191,11 +191,11 @@ Each configuration module can be customized independently:
 
 #### Zsh Optimization
 ```bash
-# Add to .zshrc for lazy loading heavy tools
-conda() {
-    unfunction conda
-    source /opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh
-    conda "$@"
+# Lazy-load a heavy tool only when it is first called (pattern used for nvm, pyenv, etc.)
+nvm() {
+    unfunction nvm
+    source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+    nvm "$@"
 }
 ```
 
@@ -224,7 +224,7 @@ Run `./check-deps.sh` to verify all dependencies are installed.
 1. Check zsh startup time: `time zsh -i -c exit`
 2. Use minimal config: `tmux -f ~/.tmux-minimal.conf`
 3. Disable heavy plugins in `.tmux.conf`
-4. Add lazy loading for conda/nvm in `.zshrc`
+4. Lazy-load heavy tools (nvm, pyenv, etc.) in `.zshrc` instead of initializing them at startup
 
 ### Key bindings not working
 1. For macOS Option key: Configure iTerm2 → Preferences → Profiles → Keys → Left/Right Option key = Esc+
