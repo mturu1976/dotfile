@@ -1,6 +1,7 @@
 #!/bin/zsh
 # prefix+w のウィンドウ/セッション一覧（fzf）
 #   ★   = 現在地（開いた瞬間にカーソルが乗る / C-g で戻る）
+#   🤖  = Claude Code が動いているウィンドウ（いずれかのペインの実行コマンドが claude）
 #   C-r = カーソル行のセッション名を変更
 #   C-e = カーソル行のセッションにメモ（@note）を付ける（空=維持, -=削除）
 #
@@ -19,8 +20,8 @@ target_of() {
   setopt localoptions extendedglob   # 下の `#` 量指定子に必要
   local line="$1"
   line="${line##[ 0-9]#[0-9] }"   # 行頭の通し番号
-  line="${line#★ }"
-  line="${line#  }"
+  line="${line#(★ |  )}"          # 現在地マーカー（非該当行は空白 2 個）
+  line="${line#(🤖 |   )}"        # Claude Code マーカー（非該当行は空白 3 個）
   print -r -- "${line%% | *}"
 }
 
@@ -33,8 +34,10 @@ session_of() {
 
 cmd_list() {
   # 行頭に通し番号を付ける（今いる行が一目で分かるように）
+  # 🤖: ウィンドウ内のどこかのペインで claude が動いていれば付ける
+  #     （#{P:…} で全ペインの pane_current_command を並べ、#{m:…} で glob 一致。外部コマンド不要）
   tmux list-windows -a -F \
-    '#{?#{&&:#{session_attached},#{window_active}},★ ,  }#{session_name}:#{window_index} | #{window_name} | [#{window_panes}panes] | #{b:pane_current_path}#{?@note, | 📝 #{@note},}' \
+    '#{?#{&&:#{session_attached},#{window_active}},★ ,  }#{?#{m:*claude*,#{P:#{pane_current_command} }},🤖 ,   }#{session_name}:#{window_index} | #{window_name} | [#{window_panes}panes] | #{b:pane_current_path}#{?@note, | 📝 #{@note},}' \
   | awk '{ printf "%2d %s\n", NR, $0 }'
 }
 
@@ -78,7 +81,7 @@ cmd_pick() {
     --prompt=' WIN> ' --border --reverse --ansi --sync \
     --info=inline-right \
     --info-command='printf "\e[33;1m%s\e[m行目 / %s件%s" "$FZF_POS" "$FZF_MATCH_COUNT" "$( [ "$FZF_MATCH_COUNT" != "$FZF_TOTAL_COUNT" ] && printf " (全%s)" "$FZF_TOTAL_COUNT" )"' \
-    --header='ウィンドウ切り替え (★=現在地 / C-g=★へ / C-r=名前変更 / C-e=メモ / 番号入力で絞り込み)' \
+    --header='ウィンドウ切り替え (★=現在地 / 🤖=Claude Code / C-g=★へ / C-r=名前変更 / C-e=メモ / 番号入力で絞り込み)' \
     --color=fg:#a9b1d6,hl:#f5c2e7,fg+:#a6e3a1,bg+:#1a1b26,hl+:#fab387 \
     --bind "start:transform(${SELF:q} jump)" \
     --bind "ctrl-g:transform(${SELF:q} jump)" \

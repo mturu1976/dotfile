@@ -36,7 +36,7 @@ tmux attach -t <name>              # Attach to session
 # prefix+g: Git popup window
 # prefix+C: Claude Code popup  
 # prefix+N: Notes popup
-# prefix+w: Window/session picker (fzf; C-g jump to current, C-r rename session, C-e note)
+# prefix+w: Window/session picker (fzf; ★ current, 🤖 Claude Code running, C-g jump to current, C-r rename session, C-e note)
 # Alt+h/j/k/l: Seamless vim-tmux pane navigation
 ```
 
